@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "module": "streamlit",
-            "args": ["run", "viz_app.py"]
+            "args": ["run", "home.py"]
         }
     ]
 }
