@@ -44,7 +44,7 @@ machine_ids = set(list(df.iloc[:,2]))
 # Call Model ----------------------------------------------
 
 import boto3
-sagemaker = boto3.client('sagemaker-runtime', region="us-west-1")
+sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1")
 
 def get_row(date):
     row = df.loc[df[1] == date]
