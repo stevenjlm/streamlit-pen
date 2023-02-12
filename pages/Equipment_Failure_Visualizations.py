@@ -36,7 +36,8 @@ failures = df.loc[df[0] == True]
 machine_ids = list(failures[2].unique())
 
 def get_dates_for_machine(m_id):
-    return list(failures.loc[failures[2] == int(m_id)][1])
+    dates = list(failures.loc[failures[2] == int(m_id)][1])
+    return dates[::-1]
 
 def make_plot(machine, date, column, hours):
     machine_signal = df.loc[df[2] == int(machine)]
