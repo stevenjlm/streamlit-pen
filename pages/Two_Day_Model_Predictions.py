@@ -16,16 +16,16 @@ def read_file(filename):
     with fs.open(filename) as f:
         return f.read().decode("utf-8")
 
-content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test_02_12_12.csv")
+content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test_02_12_16.csv")
 
 COLUMNS = ['failure_comp2', 'datetime', 'machineID', 'volt', 'rotate', 'pressure',
        'vibration', 'age', 'anomaly', 'error1', 'error2', 'error3', 'error4',
        'error5', 'maint_comp1', 'maint_comp2', 'maint_comp3', 'maint_comp4',
-       'model1', 'model2', 'model3', 'model4', 'error1_in_past_24',
-       'error2_in_past_24', 'error3_in_past_24', 'error4_in_past_24',
-       'error5_in_past_24', 'maint_comp1_in_past_24',
-       'maint_comp2_in_past_24', 'maint_comp3_in_past_24',
-       'maint_comp4_in_past_24']
+       'model1', 'model2', 'model3', 'model4', 'error1_in_past_48',
+       'error2_in_past_48', 'error3_in_past_48', 'error4_in_past_48',
+       'error5_in_past_48', 'maint_comp1_in_past_48',
+       'maint_comp2_in_past_48', 'maint_comp3_in_past_48',
+       'maint_comp4_in_past_48']
 
 df = pd.read_csv(StringIO(content), header=None)
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
@@ -53,7 +53,7 @@ def get_row(date):
 def get_prediction(row):
     df_row = pd.DataFrame(row)
     res = sagemaker.invoke_endpoint(
-                    EndpointName='sagemaker-xgboost-2023-02-12-20-17-51-204',
+                    EndpointName='sagemaker-xgboost-2023-02-13-00-34-37-513',
                     Body=df_row.iloc[:, 1:].to_csv(index=False, header=False),
                     ContentType='text/csv',
                     Accept='Accept'
@@ -79,9 +79,9 @@ def update_cell(m_id, year, month, day, hour):
 
 # Actual Front-end -------------------------------
 
-st.title("24-hour Prediction Model")
+st.title("48-hour Prediction Model")
 
-st.write("The DayModel will look at the data for a given time stamp and predict if component 2 will fail within 24 hours.")
+st.write("The Two Day Model will look at the data for a given time stamp and predict if component 2 will fail within 48 hours.")
 
 st.write("Note: Predicted failures are rare, some examples include: machine 7 on 2015-10-20 07:00:00 or machine 97 on 2015-10-20 07:00:00.")
 
@@ -103,14 +103,14 @@ with st.expander("Model Inputs"):
             pass
 
     with col2:
-        st.write("Errors in past 24 hrs:")
+        st.write("Errors in past 48 hrs:")
         try:
             st.dataframe(update_cell(machine, year, month, day, hour)[1].iloc[0, 22:27])
         except IndexError:
             pass
 
     with col3:
-        st.write("Maintenance in past 24hr:")
+        st.write("Maintenance in past 48 hrs:")
         try:
             st.dataframe(update_cell(machine, year, month, day, hour)[1].iloc[0, 27:32])
         except IndexError:
