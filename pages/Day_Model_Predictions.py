@@ -73,7 +73,7 @@ def update_cell(m_id, year, month, day, hour):
         row = df.loc[(df.iloc[:,2] == m_id) & (df.iloc[:,1] == date)]
         row[1] = 0 # setting the date to zero
         p = get_prediction(row)
-        message = f"Predicition: {p} Grouth Truth: {row.iloc[0, 0]}"
+        message = f"Prediction: {p} Ground Truth: {row.iloc[0, 0]}"
         row.columns = COLUMNS
     return message, row
 

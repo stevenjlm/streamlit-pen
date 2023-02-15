@@ -53,7 +53,7 @@ def get_row(date):
 def get_prediction(row):
     df_row = pd.DataFrame(row)
     res = sagemaker.invoke_endpoint(
-                    EndpointName='sagemaker-xgboost-2023-02-13-00-34-37-513',
+                    EndpointName='sagemaker-xgboost-2023-02-13-00-34-37-513-svless',
                     Body=df_row.iloc[:, 1:].to_csv(index=False, header=False),
                     ContentType='text/csv',
                     Accept='Accept'
@@ -73,7 +73,7 @@ def update_cell(m_id, year, month, day, hour):
         row = df.loc[(df.iloc[:,2] == m_id) & (df.iloc[:,1] == date)]
         row[1] = 0 # setting the date to zero
         p = get_prediction(row)
-        message = f"Predicition: {p} Grouth Truth: {row.iloc[0, 0]}"
+        message = f"Prediction: {p} Ground Truth: {row.iloc[0, 0]}"
         row.columns = COLUMNS
     return message, row
 
