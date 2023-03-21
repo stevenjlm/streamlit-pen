@@ -53,7 +53,7 @@ def get_row(date):
 def get_prediction(row):
     df_row = pd.DataFrame(row)
     res = sagemaker.invoke_endpoint(
-                    EndpointName='sagemaker-xgboost-2023-02-12-20-17-51-204',
+                    EndpointName='sagemaker-xgboost-2023-03-21-04-37-03-129',
                     Body=df_row.iloc[:, 1:].to_csv(index=False, header=False),
                     ContentType='text/csv',
                     Accept='Accept'
