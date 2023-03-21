@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Azure Predictive Maintenance Challenge")
+st.title("Predictive Maintenance Tool")
 
 st.write("Steven Munn, March 20th 2023")
 
