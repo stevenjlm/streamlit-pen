@@ -23,7 +23,7 @@ with st.expander("Problem Description"):
 
 with st.expander("Data Description"):
 
-    st.image("img/task.png")
+    st.image("/home/ec2-user/streamlit-pen/img/task.png")
     st.write("This project aims to train predictive models based on historical data from the APM challenge dataset.")
 
     st.image("img/signals.png")
