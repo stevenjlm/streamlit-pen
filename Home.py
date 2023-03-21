@@ -1,4 +1,10 @@
 import streamlit as st
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+app_dir = config["DEFAULT"]["app_dir"]
+
 
 st.title("Predictive Maintenance Tool for Azure Computing Data")
 
@@ -23,17 +29,17 @@ with st.expander("Problem Description"):
 
 with st.expander("Data Description"):
 
-    st.image("/home/ec2-user/streamlit-pen/img/task.png")
+    st.image(f"{app_dir}/img/task.png")
     st.write("This project aims to train predictive models based on historical data from the APM challenge dataset.")
 
-    st.image("img/signals.png")
+    st.image(f"{app_dir}/img/signals.png")
     st.write("The Azure Predictive Maintenance Challenge dataset contains continuous-valued measurements for physical characteristics \
         of the equipment such as temperature, or pressure. It also tracks indicator variables specifying when errors, failures, and maintenance occur.")
 
-    st.image("img/machines.png")
+    st.image(f"{app_dir}/img/machines.png")
     st.write("Machines are labelled 1 to 100 in the data.")
 
-    st.image("img/components.png")
+    st.image(f"{app_dir}/img/components.png")
     st.write("Each Machine has five components.")
 
     st.write("In this project we focus on predicting failures for component 2.")
