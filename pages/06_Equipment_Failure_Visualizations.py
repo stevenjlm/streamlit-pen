@@ -1,35 +1,15 @@
 import streamlit as st
-import s3fs
 import pandas as pd
 from datetime import datetime, timedelta
-from io import StringIO
 import matplotlib.pyplot as plt
 # Using plotly.express
 import plotly.express as px
 
-# Create connection object.
-# `anon=False` means not anonymous, i.e. it uses access keys to pull data.
-fs = s3fs.S3FileSystem(anon=False)
+import src.data as data
+COLUMNS = data.DayModelData.COLUMNS
 
-# Retrieve file contents.
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
-def read_file(filename):
-    with fs.open(filename) as f:
-        return f.read().decode("utf-8")
+df = data.DayModelData.get_df()
 
-content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test.csv")
-
-COLUMNS = ['failure_comp2', 'datetime', 'machineID', 'volt', 'rotate', 'pressure',
-       'vibration', 'age', 'anomaly', 'error1', 'error2', 'error3', 'error4',
-       'error5', 'maint_comp1', 'maint_comp2', 'maint_comp3', 'maint_comp4',
-       'model1', 'model2', 'model3', 'model4', 'error1_convolve_24',
-       'error2_convolve_24', 'error3_convolve_24', 'error4_convolve_24',
-       'error5_convolve_24', 'maint_comp1_convolve_24',
-       'maint_comp2_convolve_24', 'maint_comp3_convolve_24',
-       'maint_comp4_convolve_24']
-
-df = pd.read_csv(StringIO(content), header=None)
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
 
 failures = df.loc[df[0] == True]
@@ -48,11 +28,6 @@ def make_plot(machine, date, column, hours):
     time_window_signal = machine_signal[(machine_signal['datetime'] >= start_date) & (machine_signal['datetime'] <= end_date)]
 
     return px.line(time_window_signal, x='datetime', y=column, title=f"{column} vs Time for Machine {machine}")
-    # plt.rcParams['figure.figsize'] = [10, 5]
-    # plt.title(f"{column} vs Time for Machine {machine}")
-    # plt.plot(t, y, "xb")
-    # plt.xticks(rotation = 45)
-    # return plt.gcf()
 
 
 
