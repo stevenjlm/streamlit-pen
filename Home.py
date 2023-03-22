@@ -1,52 +1,37 @@
 import streamlit as st
-import configparser
-
-config = configparser.ConfigParser()
-config.read('config.ini')
-app_dir = config["DEFAULT"]["app_dir"]
 
 
-st.title("Predictive Maintenance Tool for Azure Computing Data")
+st.title("Predictive Maintenance Web Application for Telemetry Data")
 
 st.write("Steven Munn, March 20th 2023")
 
-st.markdown(
-"""
-Tabs on the left allow you to:
-- Infer likely failure time-intervals for components with the [Predictions Day Model](/Predictions_Day_Model) or [Predictions Two Day Model](/Predictions_Two_Day_Model).
-- Visualize pre-failure data in the [Equipment Failure Visualizations](/Equipment_Failure_Visualizations) tab.
-- Examine training reports in the [Reports](/Reports) tab.
+with st.expander("Introduction"):
+    st.write("Cloud computing providers need to keep their machines up and running as much as possible. \
+            Machines that shut down are not providing a service, so the provider's goal is keep uptime high \
+            in a cost-effective manner.")
 
-The sections below give an overview of the predictive maintenance problem.
-"""
-)
+    st.write("    Predictive maintenance is a way of anticipating necessary maintenance needs without \
+            performing unnecessary maintenance on healthy machines. To do this, the provider needs \
+            a model for forecasting which machines in their compute center are likely to fail. The \
+            [Azure Predictive Maintenance Challenge](https://www.kaggle.com/datasets/arnabbiswas1/microsoft-azure-predictive-maintenance) \
+            (APM) provides a data set of measurements in a cloud computing facility that can help build such a model.")
 
+    st.write("    This web-app is a front-end for the predictive models I built based on the APM data set. \
+            After splitting data into \
+            training, validation, and testing datasets, the goal is to build a model to predict impending failures in the test data (data that it has never seen during learning).")
+    
+with st.expander("Usage"):
+    st.markdown("""
+    #### Background and Information
+    The first three tabs on the left explain the data and model in more depth.
 
-with st.expander("Problem Description"):
+    #### Predictive Models
+    Click on [Predictions Day Model](/Predictions_Day_Model) to see the 24-hour model in action. Or [Predictions Two Day Model](/Predictions_TWo_Day_Model) \
+    for the 48-hour model.
 
-    st.write("Using the Kaggle data-set for [Azure Predictive Maintenance Challenge](https://www.kaggle.com/datasets/arnabbiswas1/microsoft-azure-predictive-maintenance) \
-        this project explores ways to model and predict failures for component 2.")
+    #### Equipment Failure Visualizations
+    The [Equipment Failure Visualizations](/Equipment_Failure_Visualizations) tab presents the input data before a given time stamp.
 
-with st.expander("Data Description"):
-
-    st.image(f"{app_dir}/img/task.png")
-    st.write("This project aims to train predictive models based on historical data from the APM challenge dataset.")
-
-    st.image(f"{app_dir}/img/signals.png")
-    st.write("The Azure Predictive Maintenance Challenge dataset contains continuous-valued measurements for physical characteristics \
-        of the equipment such as temperature, or pressure. It also tracks indicator variables specifying when errors, failures, and maintenance occur.")
-
-    st.image(f"{app_dir}/img/machines.png")
-    st.write("Machines are labelled 1 to 100 in the data.")
-
-    st.image(f"{app_dir}/img/components.png")
-    st.write("Each Machine has five components.")
-
-    st.write("In this project we focus on predicting failures for component 2.")
-
-
-with st.expander("Predictive Models"):
-    st.write("After splitting the data from the Kaggle dataset into training, validation, and testing data, the predictive models will use testing data (unseen by the models) to compare predictions to ground truth.")
-
-with st.expander("Visualizations"):
-    st.write("The visualization tab helps the user plot variables leading up to a certain time to see patterns in the failures.")
+    #### Reports
+    The last tab shows all the jupyter notebooks and training reports for the ML models, as well as the github repositories for the training and front-end code.
+    """)
