@@ -14,13 +14,15 @@ plotter = plots.DayModelPlotter()
 
 st.title("Visualize Data Before a Component Failure")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     machine = st.selectbox("Machine ID:", tuple(machine_ids))
-    date = st.selectbox("Dates:", tuple(model_data.failure_dates_for_machine(machine)))
 
 with col2:
+    date = st.selectbox("Dates:", tuple(model_data.failure_dates_for_machine(machine)))
+
+with col3:
     hours = st.selectbox("Hours:", tuple([12,24,42,72,161]))
 
 st.plotly_chart(plotter.plot_telem_animation(machine, date, hours))
