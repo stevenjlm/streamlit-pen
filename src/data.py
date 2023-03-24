@@ -5,6 +5,9 @@ from io import StringIO
 import pandas as pd
 from datetime import datetime
 
+from constants import APP_DIR
+app_dir=APP_DIR
+
 FAILURE_COL_IDX = 0
 MACHINE_ID_COL_IDX = 2
 
@@ -82,3 +85,10 @@ class TwoDayModel(APMData):
             self.df = get_dataframe(self.FILENAME)
             self.df.iloc[:,1] = pd.to_datetime(self.df.iloc[:,1])
         return self.df
+
+# For the home page animation
+# Uses st.cache_data to only rerun when the query changes or after 20 min.
+@st.cache_data(ttl=1200)
+def read_home_page_data():
+    df = pd.read_csv(APP_DIR + "/december_status.csv")
+    return df

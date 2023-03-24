@@ -1,9 +1,14 @@
 import streamlit as st
+from src.plots import HomePlotter
 
 
 st.title("Predictive Maintenance Web Application for Telemetry Data")
 
 st.write("Steven Munn, March 20th 2023")
+
+home_plotter = HomePlotter()
+
+st.plotly_chart(home_plotter.home_page_plot())
 
 with st.expander("Introduction"):
     st.write("Cloud computing providers need to keep their machines up and running as much as possible. \
