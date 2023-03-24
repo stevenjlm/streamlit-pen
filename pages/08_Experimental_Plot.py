@@ -1,4 +1,5 @@
 import streamlit as st
+import time
 
 import src.plots as plots
 import src.data as data
@@ -24,6 +25,10 @@ with col2:
     column = st.selectbox("Quantity:", tuple(COLUMNS[3:]))
     hours = st.selectbox("Hours:", tuple([12,24,42,72,161]))
 
-st.plotly_chart(plotter.plot_ts(machine, date, column, hours))
+chart = st.plotly_chart(plotter.plot_animation(machine, date, column, 1))
+for t in range(2, hours):
+    chart.empty()
+    chart = st.plotly_chart(plotter.plot_animation(machine, date, column, t))
+    time.sleep(0.5)
 
 st.write("Note: If there are no data points in the plot, select a later date.")

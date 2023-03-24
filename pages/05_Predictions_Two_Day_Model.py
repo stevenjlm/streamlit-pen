@@ -8,7 +8,8 @@ from datetime import datetime
 import src.data as data
 COLUMNS = data.TwoDayModel.COLUMNS
 
-df = data.TwoDayModel.get_df()
+model_data = data.TwoDayModel()
+df = model_data.get_df()
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
 
 # Getting Machine, year, month, day, and hours available --

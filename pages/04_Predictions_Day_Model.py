@@ -6,7 +6,8 @@ from datetime import datetime
 import src.data as data
 COLUMNS = data.DayModelData.COLUMNS
 
-df = data.DayModelData.get_df()
+model_data = data.DayModelData()
+df = model_data.get_df()
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
 
 # Getting Machine, year, month, day, and hours available --
