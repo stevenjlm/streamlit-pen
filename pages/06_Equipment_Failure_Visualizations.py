@@ -21,8 +21,11 @@ with col1:
     date = st.selectbox("Dates:", tuple(model_data.failure_dates_for_machine(machine)))
 
 with col2:
-    column = st.selectbox("Quantity:", tuple(COLUMNS[3:]))
     hours = st.selectbox("Hours:", tuple([12,24,42,72,161]))
+
+st.plotly_chart(plotter.plot_telem_animation(machine, date, hours))
+
+column = st.selectbox("Indicator:", tuple(COLUMNS[7:]))
 
 st.plotly_chart(plotter.plot_ts(machine, date, column, hours))
 
