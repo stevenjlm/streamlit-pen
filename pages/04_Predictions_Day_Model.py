@@ -5,9 +5,6 @@ from datetime import datetime
 
 import src.data as data
 from constants import APP_DIR
-from dotenv import load_dotenv
-
-load_dotenv(APP_DIR + ".env")
 
 COLUMNS = data.DayModelData.COLUMNS
 
@@ -29,9 +26,7 @@ machine_ids = set(list(df.iloc[:,2]))
 # Call Model ----------------------------------------------
 
 import boto3
-sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1",
-                        aws_access_key_id=os.environ["ACCESS_KEY"],
-                        aws_secret_access_key=os.environ["SECRET_KEY"])
+sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1")
 
 def get_row(date):
     row = df.loc[df[1] == date]

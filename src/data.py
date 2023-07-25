@@ -7,9 +7,6 @@ import os
 from datetime import datetime
 
 from constants import APP_DIR
-from dotenv import load_dotenv
-
-load_dotenv(APP_DIR + ".env")
 app_dir=APP_DIR
 
 FAILURE_COL_IDX = 0
@@ -21,9 +18,7 @@ MACHINE_ID_COL_IDX = 2
 def read_file(filename):
     # Create connection object.
     # `anon=False` means not anonymous, i.e. it uses access keys to pull data.
-    fs = s3fs.S3FileSystem(anon=False,
-                        key=os.environ["ACCESS_KEY"],
-                        secret=os.environ["SECRET_KEY"])
+    fs = s3fs.S3FileSystem(anon=False)
 
     with fs.open(filename) as f:
         return f.read().decode("utf-8")
