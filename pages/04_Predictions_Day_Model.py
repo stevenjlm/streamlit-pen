@@ -4,6 +4,11 @@ import pandas as pd
 from datetime import datetime
 
 import src.data as data
+from constants import APP_DIR
+from dotenv import load_dotenv
+
+load_dotenv(APP_DIR + ".env")
+
 COLUMNS = data.DayModelData.COLUMNS
 
 model_data = data.DayModelData()

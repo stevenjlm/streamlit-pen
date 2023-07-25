@@ -3,9 +3,10 @@ import s3fs
 import os
 from io import StringIO
 import pandas as pd
+from constants import APP_DIR
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(APP_DIR + ".env")
 
 # Create connection object.
 # `anon=False` means not anonymous, i.e. it uses access keys to pull data.

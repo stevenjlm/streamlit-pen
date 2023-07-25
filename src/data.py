@@ -7,6 +7,9 @@ import os
 from datetime import datetime
 
 from constants import APP_DIR
+from dotenv import load_dotenv
+
+load_dotenv(APP_DIR + ".env")
 app_dir=APP_DIR
 
 FAILURE_COL_IDX = 0
