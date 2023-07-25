@@ -7,9 +7,7 @@ from datetime import datetime
 
 import src.data as data
 from constants import APP_DIR
-from dotenv import load_dotenv
 
-load_dotenv(APP_DIR + ".env")
 COLUMNS = data.TwoDayModel.COLUMNS
 
 model_data = data.TwoDayModel()
