@@ -20,7 +20,7 @@ def read_file(filename):
     # `anon=False` means not anonymous, i.e. it uses access keys to pull data.
     fs = s3fs.S3FileSystem(anon=False,
                         key=st.secrets["ACCESS_KEY"],
-                        secret=st.secrets["SECRET_KEY"])
+                        secret=st.secrets["PRIVATE_KEY"])
 
     with fs.open(filename) as f:
         return f.read().decode("utf-8")
