@@ -3,6 +3,7 @@ import s3fs
 from typing import List
 from io import StringIO
 import pandas as pd
+import os
 from datetime import datetime
 
 from constants import APP_DIR
@@ -18,8 +19,8 @@ def read_file(filename):
     # Create connection object.
     # `anon=False` means not anonymous, i.e. it uses access keys to pull data.
     fs = s3fs.S3FileSystem(anon=False,
-                        key=st.secrets["ACCESS_KEY"],
-                        secret=st.secrets["SECRET_KEY"])
+                        key=os.environ["ACCESS_KEY"],
+                        secret=os.environ["SECRET_KEY"])
 
     with fs.open(filename) as f:
         return f.read().decode("utf-8")
