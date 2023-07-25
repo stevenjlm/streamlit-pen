@@ -18,9 +18,7 @@ def read_file(filename):
     with fs.open(filename) as f:
         return f.read().decode("utf-8")
 
-content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test.csv",
-                        aws_access_key_id=st.secrets["ACCESS_KEY"],
-                        aws_secret_access_key=st.secrets["PRIVATE_KEY"])
+content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test.csv")
 
 df = pd.read_csv(StringIO(content), header=None)
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
