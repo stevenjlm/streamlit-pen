@@ -6,7 +6,9 @@ import pandas as pd
 
 # Create connection object.
 # `anon=False` means not anonymous, i.e. it uses access keys to pull data.
-fs = s3fs.S3FileSystem(anon=False)
+fs = s3fs.S3FileSystem(anon=False,
+                        key=st.secrets["ACCESS_KEY"],
+                        secret=st.secrets["SECRET_KEY"])
 
 # Retrieve file contents.
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
@@ -15,7 +17,9 @@ def read_file(filename):
     with fs.open(filename) as f:
         return f.read().decode("utf-8")
 
-content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test.csv")
+content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test.csv",
+                        aws_access_key_id=st.secrets["ACCESS_KEY"],
+                        aws_secret_access_key=st.secrets["SECRET_KEY"])
 
 df = pd.read_csv(StringIO(content), header=None)
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
