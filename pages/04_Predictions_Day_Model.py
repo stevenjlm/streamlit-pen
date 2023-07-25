@@ -1,33 +1,18 @@
 import streamlit as st
-import s3fs
 import os
-from io import StringIO
 import pandas as pd
 from datetime import datetime
 
-# Create connection object.
-# `anon=False` means not anonymous, i.e. it uses access keys to pull data.
-fs = s3fs.S3FileSystem(anon=False)
+import src.data as data
+from constants import APP_DIR
+from dotenv import load_dotenv
 
-# Retrieve file contents.
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
-def read_file(filename):
-    with fs.open(filename) as f:
-        return f.read().decode("utf-8")
+load_dotenv(APP_DIR + ".env")
 
-content = read_file("s3://pmpf-data/sagemaker-xgboost-prediction/data/test_02_12_12.csv")
+COLUMNS = data.DayModelData.COLUMNS
 
-COLUMNS = ['failure_comp2', 'datetime', 'machineID', 'volt', 'rotate', 'pressure',
-       'vibration', 'age', 'anomaly', 'error1', 'error2', 'error3', 'error4',
-       'error5', 'maint_comp1', 'maint_comp2', 'maint_comp3', 'maint_comp4',
-       'model1', 'model2', 'model3', 'model4', 'error1_in_past_24',
-       'error2_in_past_24', 'error3_in_past_24', 'error4_in_past_24',
-       'error5_in_past_24', 'maint_comp1_in_past_24',
-       'maint_comp2_in_past_24', 'maint_comp3_in_past_24',
-       'maint_comp4_in_past_24']
-
-df = pd.read_csv(StringIO(content), header=None)
+model_data = data.DayModelData()
+df = model_data.get_df()
 df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
 
 # Getting Machine, year, month, day, and hours available --
@@ -44,7 +29,9 @@ machine_ids = set(list(df.iloc[:,2]))
 # Call Model ----------------------------------------------
 
 import boto3
-sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1")
+sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1",
+                        aws_access_key_id=os.environ["ACCESS_KEY"],
+                        aws_secret_access_key=os.environ["SECRET_KEY"])
 
 def get_row(date):
     row = df.loc[df[1] == date]
