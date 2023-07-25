@@ -26,7 +26,9 @@ machine_ids = set(list(df.iloc[:,2]))
 # Call Model ----------------------------------------------
 
 import boto3
-sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1")
+sagemaker = boto3.client('sagemaker-runtime', region_name="us-west-1",
+                        aws_access_key_id=st.secrets["ACCESS_KEY"],
+                        aws_secret_access_key=st.secrets["SECRET_KEY"])
 
 def get_row(date):
     row = df.loc[df[1] == date]
